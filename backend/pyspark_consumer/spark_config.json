@@ -1,0 +1,7 @@
+{
+  "kafka_bootstrap": "localhost:9092",
+  "topic": "air_quality_data",
+  "backend_ingest_url": "http://localhost:8000/ingest"
+}
+
+
