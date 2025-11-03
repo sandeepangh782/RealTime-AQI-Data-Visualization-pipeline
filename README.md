@@ -3,6 +3,8 @@ Realtime Air Quality & Pollution Dashboard
 Overview
 This project visualizes real-time AQI data using Kafka, PySpark, FastAPI, and a React+Vite frontend. Data flows: Producer → Kafka → Spark Consumer → FastAPI (WebSocket) → React (D3.js).
 
+<img width="784" height="333" alt="image" src="https://github.com/user-attachments/assets/9f49d79c-3c10-4349-8aa2-d7b899373ef3" />
+
 Quick Start
 - Prereqs: Docker, Docker Compose, Python 3.10+, Node 18+, Java 11+ (for Spark), make (optional)
 - Bring up infra (Kafka, Zookeeper, Spark):
