@@ -1,4 +1,4 @@
-Live Air Quality & Pollution Dashboard
+Realtime Air Quality & Pollution Dashboard
 
 Overview
 This project visualizes real-time AQI data using Kafka, PySpark, FastAPI, and a React+Vite frontend. Data flows: Producer → Kafka → Spark Consumer → FastAPI (WebSocket) → React (D3.js).
