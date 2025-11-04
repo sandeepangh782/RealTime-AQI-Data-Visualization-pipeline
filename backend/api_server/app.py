@@ -39,9 +39,15 @@ class ConnectionManager:
         living: List[WebSocket] = []
         for ws in self._connections:
             try:
-                await ws.send_json(message)
+                # Add timeout to prevent slow clients from blocking
+                await asyncio.wait_for(ws.send_json(message), timeout=2.0)
                 living.append(ws)
-            except Exception:
+            except asyncio.TimeoutError:
+                print(f"[ws] client timeout - dropping connection")
+                # drop slow/dead socket
+                pass
+            except Exception as e:
+                print(f"[ws] client error: {e} - dropping connection")
                 # drop dead socket
                 pass
         self._connections = living
@@ -63,8 +69,8 @@ def health() -> Dict[str, str]:
 @app.post("/ingest")
 async def ingest(payload: IngestPayload) -> Dict[str, int]:
     print(f"[api] /ingest received: {len(payload.data)} records")
-    # Broadcast each record to listeners; the frontend expects { type: 'aqi_update', data: [...] }
-    await manager.broadcast_json({"type": "aqi_update", "data": payload.data})
+    # Broadcast in background (fire-and-forget) to avoid blocking the response
+    asyncio.create_task(manager.broadcast_json({"type": "aqi_update", "data": payload.data}))
     return {"count": len(payload.data)}
 
 
